@@ -1,7 +1,10 @@
+push 0
 push 1
 push 2
-push 3
-print
 pall
+push 3
+push 4
 swap
+push 6
+pop
 pall
