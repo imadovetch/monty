@@ -12,6 +12,7 @@ void perform_division(stack_t **stack, unsigned int line_number);
 void add(stack_t **stack, unsigned int line_number);
 void print(stack_t **stack, unsigned int line_number);
 void swap(stack_t **stack, unsigned int line_number);
+void pstr(stack_t **stack, unsigned int line_number);
 int main(int argc, char *argv[]) {
     instruction_t ops[] = {
         {"pall", pall},
@@ -21,10 +22,7 @@ int main(int argc, char *argv[]) {
         {"print", print},
         {"swap",swap},
         {"add",add},
-        {"divter",perform_division},
-        {"sub",sub},
-        {"mul",mul},
-        {"pchar",pchar}
+        {"pstr",pstr}
     };
     stack_t *head = NULL;
 
@@ -34,20 +32,17 @@ int main(int argc, char *argv[]) {
     }
 
     char line[1024];
-    int count = 0;
+    
 
     FILE *file = fopen(argv[1], "r");
     if (file == NULL) {
         perror("Error opening file");
         return EXIT_FAILURE;
     }
-    
+
     while (fgets(line, sizeof(line), file)) {
         char command[20];
         if (sscanf(line, "%19s", command) == 1) {
-            char *token = strtok(line," ");
-            
-            
             int found = 0; // Flag to indicate if the opcode is found
             for (int in = 0; in < sizeof(ops) / sizeof(ops[0]); in++) {
                 if (strcmp(command, ops[in].opcode) == 0) {
@@ -69,11 +64,7 @@ int main(int argc, char *argv[]) {
             fprintf(stderr, "Invalid line format: %s", line);
         }
 
-        count++;
-        if (count > 10) {
-            fprintf(stderr, "Warning: Maximum number of commands reached (10).\n");
-            break;
-        }
+        
     }
 
     fclose(file);
@@ -107,6 +98,8 @@ stack_t *addnode(stack_t **head, int data) {
     *head = new;
     return new;
 }
+
+
 
 void pall(stack_t **stack, unsigned int line_number) {
     stack_t *current = *stack;

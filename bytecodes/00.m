@@ -1,10 +1,10 @@
-push 0
-push 1
-push 2
+push 53
+push 52
+push 51
 pall
-push 3
-push 4
+push 50
+push 49
 swap
-push 6
+push 48
 pop
-pall
+pstr
