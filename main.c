@@ -19,7 +19,8 @@ int main(int argc, char *argv[]) {
         {"mul", mul},
         {"sub", sub},
         {"pstr", pstr},
-        {"pchar", pchar}
+        {"pchar", pchar},
+        {"nop", nop}
     };
     stack_t *head = NULL;
 
@@ -109,11 +110,11 @@ stack_t *addnode(stack_t **head, int data) {
     new->n = data;
     new->prev = NULL;
     new->next = *head;
-    
+
     if (*head != NULL) {
         (*head)->prev = new;
     }
-    
+
     *head = new;
     return new;
 }
@@ -125,7 +126,7 @@ void pall(stack_t **stack, unsigned int line_number) {
     stack_t *current = *stack;
     (void)line_number;
 
-    
+
     while (current != NULL) {
         printf("%d\n", current->n);
         current = current->next;
@@ -147,7 +148,7 @@ void pop(stack_t **stack, unsigned int line_number) {
         fprintf(stderr, "L%u: can't pop an empty stack\n", line_number);
         exit(EXIT_FAILURE);
     }
-    
+
 
     *stack = current->next;
 
@@ -181,8 +182,8 @@ void swap(stack_t **stack, unsigned int line_number) {
         exit(EXIT_FAILURE);
     }
 
-    
-    
+
+
 
     tmp1->next = tmp2->next;
     tmp2->prev = NULL;
@@ -201,7 +202,7 @@ void add(stack_t **stack, unsigned int line_number) {
         fprintf(stderr, "L%u: can't add, stack too short\n", line_number);
         exit(EXIT_FAILURE);
     }
-    
+
     sum = (*stack)->n + (*stack)->next->n;
     pop(stack, line_number);
 
@@ -215,7 +216,7 @@ void sub(stack_t **stack, unsigned int line_number) {
         fprintf(stderr, "L%u: can't sub, stack too short\n", line_number);
         exit(EXIT_FAILURE);
     }
-    
+
     difference = (*stack)->next->n - (*stack)->n;
     pop(stack, line_number);
 
@@ -229,7 +230,7 @@ void mul(stack_t **stack, unsigned int line_number) {
         fprintf(stderr, "Error: not enough elements in the stack to add\n");
         exit(EXIT_FAILURE);
     }
-    
+
     sum = (*stack)->n * (*stack)->next->n;
     pop(stack, line_number);
 
@@ -242,7 +243,7 @@ void perform_division(stack_t **stack, unsigned int line_number) {
         fprintf(stderr, "L%u: can't div, stack too short\n", line_number);
         exit(EXIT_FAILURE);
     }
-    
+
     if ((*stack)->n == 0) {
         fprintf(stderr, "L%u: division by zero\n", line_number);
         exit(EXIT_FAILURE);
@@ -260,12 +261,12 @@ void mod(stack_t **stack, unsigned int line_number) {
         fprintf(stderr, "L%u: can't mod, stack too short\n", line_number);
         exit(EXIT_FAILURE);
     }
-    
+
     if ((*stack)->n == 0) {
         fprintf(stderr, "L%u: division by zero\n", line_number);
         exit(EXIT_FAILURE);
     }
-    
+
     result = (*stack)->next->n % (*stack)->n;
     pop(stack, line_number);
 
@@ -297,7 +298,7 @@ void pstr(stack_t **stack, unsigned int line_number) {
         return;
     }
 
-    
+
     while (current != NULL && current->n != 0 && (current->n >= 0 && current->n <= 127)) {
         printf("%c",current->n);
         current = current->next;
@@ -314,7 +315,7 @@ void rotl(stack_t **stack, unsigned int line_number) {
         return;
     }
 
-    
+
     while (current->next != NULL) {
         current = current->next;
     }
@@ -333,8 +334,8 @@ void rotr(stack_t **stack, unsigned int line_number) {
                 return;
     }
 
-    
-    
+
+
     while (current->next != NULL) {
         current = current->next;
     }
