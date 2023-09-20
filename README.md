@@ -1,1 +1,1 @@
-lifo fifo
+fo fifo
