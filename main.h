@@ -4,7 +4,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-
+#include <ctype.h>
 typedef struct stack_s {
     int n;
     struct stack_s *prev;
@@ -36,5 +36,5 @@ void print(stack_t **stack, unsigned int line_number);
 void swap(stack_t **stack, unsigned int line_number);
 void pstr(stack_t **stack, unsigned int line_number);
 void pchar(stack_t **stack, unsigned int line_number);
-
+int is_valid_integer(const char *str);
 #endif /* MAIN_H */
