@@ -20,7 +20,8 @@ int main(int argc, char *argv[]) {
         {"sub", sub},
         {"pstr", pstr},
         {"pchar", pchar},
-        {"nop", nop}
+        {"nop", nop},
+        {"rotr",rotr}
     };
     stack_t *head = NULL;
 
