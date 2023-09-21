@@ -21,3 +21,17 @@ void swap(stack_t **stack, unsigned int line_number)
 	tmp1->prev = tmp2;
 	*stack = tmp2;
 }
+/**
+ * print - Print the top element of the stack.
+ * @stack: A pointer to the stack.
+ * @line_number: The current line number.
+ */
+void print(stack_t **stack, unsigned int line_number)
+{
+	if (*stack == NULL)
+	{
+		fprintf(stderr, "L%u: can't pint, stack empty\n", line_number);
+		exit(EXIT_FAILURE);
+	}
+	printf("%d\n", (*stack)->n);
+}
