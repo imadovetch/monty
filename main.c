@@ -21,7 +21,8 @@ int main(int argc, char *argv[]) {
         {"pstr", pstr},
         {"pchar", pchar},
         {"nop", nop},
-        {"rotr",rotr}
+        {"rotr",rotr},
+        {"rotl",rotl}
     };
     stack_t *head = NULL;
 
@@ -41,11 +42,10 @@ int main(int argc, char *argv[]) {
 
         long unsigned int in;
         char *c_ommand[2];
-        char command[20] ="";
 
         c_ommand[0] = strtok(line, " \n\t");
         c_ommand[1] = strtok(NULL, " \n\t");
-        if (c_ommand[0] == NULL || command[0] == '#')
+        if (c_ommand[0] == NULL || c_ommand[0][0] == '#')
             continue;
 
         found = 0;
