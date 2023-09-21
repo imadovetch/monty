@@ -10,20 +10,23 @@ int main(int argc, char *argv[]) {
     FILE *file;int found;
 
     instruction_t ops[] = {
-        {"pall", pall},
-        {"push", push},
-        {"pop", pop},
-        {"pint", print},
-        {"swap", swap},
-        {"add", add},
-        {"mul", mul},
-        {"sub", sub},
-        {"pstr", pstr},
-        {"pchar", pchar},
-        {"nop", nop},
-        {"rotr",rotr},
-        {"rotl",rotl}
-    };
+    {"pall", pall},
+    {"push", push},
+    {"pop", pop},
+    {"pint", print},
+    {"swap", swap},
+    {"add", add},
+    {"mul", mul},
+    {"sub", sub},
+    {"pstr", pstr},
+    {"pchar", pchar},
+    {"nop", nop},
+    {"rotr", rotr},
+    {"rotl", rotl},
+    {"div", perform_division},
+    {"mod", mod},
+};
+
     stack_t *head = NULL;
 
     if (argc != 2) {
