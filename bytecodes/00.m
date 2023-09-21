@@ -1,10 +1,16 @@
-push 1
-push 2
-push 3
-#
-pall
-#
-rotl
-pall
-rotr
+
+
+
+push
+
+push m
+
+                   pall    
+
+
+                           
+push 
+
+    push 5    
+      push    6        
 pall

@@ -5,6 +5,14 @@
 
 int push_argument = 0;
 
+void cleanup(stack_t **head, FILE *file) {
+    fclose(file);
+    while (*head != NULL) {
+        stack_t *temp = *head;
+        *head = (*head)->next;
+        free(temp);
+    }
+}
 /**
  * main - Entry point for the Monty interpreter.
  * @argc: The number of command-line arguments.
@@ -14,40 +22,39 @@ int push_argument = 0;
 int main(int argc, char *argv[])
 {
 	char line[1024];
-	FILE *file;
-	int found;
+	FILE *file = NULL;
+	int found,count = 0;
 
 	instruction_t ops[] = {
-		{"pall", pall},
-		{"push", push},
-		{"pop", pop},
-		{"pint", print},
-		{"swap", swap},
-		{"add", add},
-		{"mul", mul},
-		{"sub", sub},
-		{"pstr", pstr},
-		{"pchar", pchar},
-		{"nop", nop},
-		{"rotr", rotr},
-		{"rotl", rotl},
-		{"div", perform_division},
-		{"mod", mod},
+	{"pall", pall},{"push", push},{"pop", pop},
+	{"pint", print},{"swap", swap},
+	{"add", add},{"mul", mul},
+	{"sub", sub},{"pstr", pstr},
+	{"pchar", pchar},{"nop", nop},{"rotr", rotr},
+	{"rotl", rotl},{"div", perform_division},{"mod", mod},
 	};
-
 	stack_t *head = NULL;
-
 	if (argc != 2)
 	{
-		fprintf(stderr, "Usage: %s <filename>\n", argv[0]);
+		fprintf(stderr, "USAGE: monty file\n");
+        cleanup(&head, file);
 		return (EXIT_FAILURE);
 	}
 	file = fopen(argv[1], "r");
+    
+	if (file == NULL)
+	{
+		perror("Error: Can't open file");
+        cleanup(&head, file);
+        fprintf(stderr, "%s\n", argv[1]);
+
+		return (EXIT_FAILURE);
+	}
 	while (fgets(line, sizeof(line), file))
 	{
 		long unsigned int in;
 		char *c_ommand[2];
-
+        count++;
 		c_ommand[0] = strtok(line, " \n\t");
 		c_ommand[1] = strtok(NULL, " \n\t");
 		if (c_ommand[0] == NULL || c_ommand[0][0] == '#')
@@ -61,7 +68,7 @@ int main(int argc, char *argv[])
 				{
 					if (c_ommand[1] == NULL || !is_valid_integer(c_ommand[1]))
 					{
-						fprintf(stderr, "L%lu: usage: push integer\n", in + 1);
+						fprintf(stderr, "L%d: usage: push integer\n", count);
 						fclose(file);
 						while (head != NULL)
 						{
@@ -73,21 +80,20 @@ int main(int argc, char *argv[])
 					}
 					push_argument = atoi(c_ommand[1]);
 				}
-				ops[in].f(&head, 1);
+				ops[in].f(&head, count);
 				found = 1;
 				break;
 			}
 		}
-		if (!found)
-			fprintf(stderr, "Unknown opcode: %s", line);
+        
+		if (!found){
+			fprintf(stderr, "L%d: unknown instruction %s\n",count,c_ommand[0]);
+            cleanup(&head, file);
+            exit(EXIT_FAILURE);
+            }
 	}
 	fclose(file);
-	while (head != NULL)
-	{
-		stack_t *temp = head;
-		head = head->next;
-		free(temp);
-	}
+	cleanup(&head, file);
 	return (EXIT_SUCCESS);
 }
 
